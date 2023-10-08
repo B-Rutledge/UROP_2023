@@ -1,0 +1,175 @@
+[SHARPy]
+flow = BeamLoader, AerogridLoader, StaticCoupled, AeroForcesCalculator, DynamicCoupled
+case = case_dynamic
+route = output_6/
+write_screen = off
+write_log = False
+log_folder = ./output/
+log_file = log
+save_settings = False
+[BeamLoader]
+unsteady = on
+orientation = [0.99995332 0.         0.00966168 0.        ]
+for_pos = 0.0, 0, 0
+[AerogridLoader]
+unsteady = on
+aligned_grid = on
+freestream_dir = [1. 0. 0.]
+mstar = 625
+control_surface_deflection = ,
+wake_shape_generator = StraightWake
+[[control_surface_deflection_generator_settings]]
+[[wake_shape_generator_input]]
+u_inf = 5.0
+u_inf_direction = [1. 0. 0.]
+dt = 0.04
+[StaticCoupled]
+print_info = True
+structural_solver = NonLinearStatic
+aero_solver = StaticUvlm
+max_iter = 50
+n_load_steps = 0
+tolerance = 1e-06
+relaxation_factor = 0.0
+correct_forces_method = ""
+[[structural_solver_settings]]
+print_info = True
+max_iterations = 150
+num_load_steps = 1
+delta_curved = 0.01
+min_delta = 1e-06
+abs_threshold = 1e-13
+newmark_damp = 0.0001
+gravity_on = False
+gravity = 9.754
+gravity_dir = 0.0, 0.0, 1.0
+relaxation_factor = 0.3
+dt = 0.04
+num_steps = 101
+initial_position = [0. 0. 0.]
+initial_velocity = [0. 0. 0. 0. 0. 0.]
+[[aero_solver_settings]]
+print_info = True
+horseshoe = False
+num_cores = 0
+n_rollup = 0
+rollup_dt = 0.04
+rollup_aic_refresh = 1
+rollup_tolerance = 0.0001
+iterative_solver = False
+iterative_tol = 0.0001
+iterative_precond = False
+velocity_field_generator = SteadyVelocityField
+rho = 0.23371983209135364
+cfl1 = True
+vortex_radius = 1e-06
+vortex_radius_wake_ind = 1e-06
+rbm_vel_g = 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+centre_rot_g = 0.0, 0.0, 0.0
+map_forces_on_struct = False
+[[[velocity_field_input]]]
+u_inf = 5.0
+u_inf_direction = [1. 0. 0.]
+[[correct_forces_settings]]
+[[runtime_generators]]
+[AeroForcesCalculator]
+write_text_file = on
+screen_output = off
+[DynamicCoupled]
+print_info = True
+structural_solver = NonLinearDynamicPrescribedStep
+aero_solver = StepUvlm
+n_time_steps = 101
+dt = 0.04
+fsi_substeps = 70
+fsi_tolerance = 1e-05
+structural_substeps = 0
+relaxation_factor = 0.2
+final_relaxation_factor = 0.0
+minimum_steps = 3
+relaxation_steps = 100
+dynamic_relaxation = False
+postprocessors = BeamPlot, AerogridPlot, AeroForcesCalculator, WriteVariablesTime
+cleanup_previous_solution = False
+include_unsteady_force_contribution = True
+steps_without_unsteady_force = 0
+pseudosteps_ramp_unsteady_force = 0
+correct_forces_method = ""
+[[structural_solver_settings]]
+print_info = True
+max_iterations = 100
+num_load_steps = 1
+delta_curved = 0.01
+min_delta = 1e-05
+abs_threshold = 1e-13
+newmark_damp = 0.0001
+gravity_on = False
+gravity = 9.81
+gravity_dir = 0.0, 0.0, 1.0
+relaxation_factor = 0.3
+dt = 0.04
+num_steps = 101
+[[aero_solver_settings]]
+print_info = True
+num_cores = 0
+n_time_steps = 101
+convection_scheme = 2
+dt = 0.04
+iterative_solver = False
+iterative_tol = 0.0001
+iterative_precond = False
+velocity_field_generator = GustVelocityField
+gamma_dot_filtering = 0
+rho = 0.23371983209135364
+cfl1 = True
+vortex_radius = 1e-06
+vortex_radius_wake_ind = 1e-06
+interp_coords = 0
+filter_method = 0
+interp_method = 0
+yaw_slerp = 0
+centre_rot = 0.0, 0.0, 0.0
+quasi_steady = False
+[[[velocity_field_input]]]
+u_inf = 5.0
+u_inf_direction = [1. 0. 0.]
+relative_motion = on
+gust_shape = 1-cos
+[[[[gust_parameters]]]]
+gust_length = 6.438794346279759
+gust_intensity = 0.5
+[[postprocessors_settings]]
+[[[BeamPlot]]]
+include_rbm = True
+include_FoR = False
+include_applied_forces = True
+include_applied_moments = True
+name_prefix = ""
+output_rbm = True
+[[[AerogridPlot]]]
+include_rbm = True
+include_forward_motion = False
+include_applied_forces = True
+include_unsteady_applied_forces = False
+minus_m_star = 0
+name_prefix = ""
+u_inf = 0.0
+dt = 0.04
+include_velocities = False
+include_incidence_angle = False
+num_cores = 1
+vortex_radius = 1e-06
+stride = 1
+save_wake = True
+[[[AeroForcesCalculator]]]
+write_text_file = on
+screen_output = off
+[[[WriteVariablesTime]]]
+structure_nodes = 11
+structure_variables = pos,
+cleanup_old_solution = on
+[[controller_id]]
+[[controller_settings]]
+[[correct_forces_settings]]
+[[network_settings]]
+[[runtime_generators]]
